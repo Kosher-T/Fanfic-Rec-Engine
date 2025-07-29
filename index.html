@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fanfic Recommendation Engine</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827;
+            color: #d1d5db;
+        }
+        .loader {
+            border-top-color: #3498db;
+            -webkit-animation: spinner 1.5s linear infinite;
+            animation: spinner 1.5s linear infinite;
+        }
+        @-webkit-keyframes spinner {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+        @keyframes spinner {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300">
+
+    <div class="container mx-auto max-w-4xl p-4 md:p-8">
+
+        <header class="text-center mb-8 md:mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-2">Fanfic Recommendation Engine</h1>
+            <p class="text-lg text-gray-400">Find your next great read.</p>
+        </header>
+
+        <main>
+            <div class="bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-semibold text-white mb-4">Search by Archive of Our Own (AO3) URL</h2>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <input type="url" id="ffn-url-input" placeholder="https://archiveofourown.org/works/..." class="flex-grow bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200">
+                    <button id="get-recs-button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-md transition duration-200 flex items-center justify-center">
+                        <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search mr-2" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                        </svg>
+                        <span id="button-text">Get Recommendations</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="results-section">
+                <div id="loading-spinner" class="hidden text-center p-8">
+                    <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-500 h-24 w-24 mx-auto"></div>
+                    <p class="mt-4 text-white text-lg">Scraping the archives...</p>
+                </div>
+                <div id="error-message" class="hidden bg-red-800 border border-red-700 text-red-200 px-4 py-3 rounded-lg relative" role="alert">
+                    <strong class="font-bold">Oh no!</strong>
+                    <span class="block sm:inline" id="error-text">Something went wrong. Please check the URL and try again.</span>
+                </div>
+                <div id="recommendations-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Example Card -->
+                    <!-- 
+                    <div class="bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col">
+                        <h3 class="text-xl font-bold text-white mb-2">Example Story Title</h3>
+                        <p class="text-sm text-gray-400 mb-2">by Author Name</p>
+                        <p class="text-gray-300 flex-grow mb-4">This is a short summary...</p>
+                        <div class="text-sm text-gray-400 mb-4">
+                            <span><b>Reason:</b> Similar pairing</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm text-gray-400 mb-4">
+                            <span><b>Words:</b> 123,456</span>
+                            <span><b>Kudos:</b> 5,000</span>
+                            <span><b>Status:</b> Complete</span>
+                        </div>
+                        <a href="#" target="_blank" class="mt-auto bg-gray-700 hover:bg-gray-600 text-white text-center font-bold py-2 px-4 rounded-md transition duration-200">Read on AO3</a>
+                    </div> 
+                    -->
+                </div>
+            </div>
+
+            <div class="mt-12 border-t border-gray-700 pt-8">
+                <h2 class="text-2xl font-semibold text-white text-center mb-6">More Ways to Discover</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-gray-800 rounded-lg p-6 opacity-50 cursor-not-allowed">
+                        <h3 class="text-xl font-bold text-white mb-2">Profile Builder</h3>
+                        <p class="text-gray-400">Tell us what you like and we'll find stories for you. (Coming Soon)</p>
+                    </div>
+                    <div class="bg-gray-800 rounded-lg p-6 opacity-50 cursor-not-allowed">
+                        <h3 class="text-xl font-bold text-white mb-2">Community Tags</h3>
+                        <p class="text-gray-400">Filter by popular community-defined tags. (Coming Soon)</p>
+                    </div>
+                    <div class="bg-gray-800 rounded-lg p-6 opacity-50 cursor-not-allowed">
+                        <h3 class="text-xl font-bold text-white mb-2">Surprise Me!</h3>
+                        <p class="text-gray-400">Get a random, high-quality story recommendation. (Coming Soon)</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
